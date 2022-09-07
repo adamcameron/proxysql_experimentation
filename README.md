@@ -48,13 +48,14 @@ $ ./rebuildContainers.sh 12345 123 1234
 # Creating proxysql_experimentation_mariadb1_1 ... done
 # Creating proxysql_experimentation_proxysql_1 ... done
 # Creating proxysql_experimentation_mariadb2_1 ... done
-
-$  docker exec --interactive --tty proxysql_experimentation_lucee_1 /bin/bash
 ```
 
 ### Install TestBox
 
 ```
+$  docker exec --interactive --tty proxysql_experimentation_lucee_1 /bin/bash
+
+
 /var/www# box install
 
 # [let it run to completion]
