@@ -6,7 +6,7 @@ This sets up containers runnning the following:
 * ProxySQL
 * two MariaDB instances
 
-See [`docker-compose.yml`](https://github.com/adamcameron/proxysql_experimentation/blob/1.0/docker/docker-compose.yml) (and linked `Dockerfile`s).
+See [`docker-compose.yml`](https://github.com/adamcameron/proxysql_experimentation/blob/1.0.1/docker/docker-compose.yml) (and linked `Dockerfile`s).
 
 It has some ProxySQL config to test routing SQL statements to either MariaDB as appropriate, via ProxySQL.
 
@@ -146,12 +146,12 @@ MariaDB [proxysql_db]>
 
 That's from `mariadb1`. `mariadb2` is basically the same, but references to `DB1` are `DB2`.
 
-See [`1.createAndPopulateTestTable.sql`](https://github.com/adamcameron/proxysql_experimentation/blob/1.0/docker/mariadb1/docker-entrypoint-initdb.d/1.createAndPopulateTestTable.sql) and [`1.createAndPopulateTestTable.sql`](https://github.com/adamcameron/proxysql_experimentation/blob/1.0/docker/mariadb2/docker-entrypoint-initdb.d/1.createAndPopulateTestTable.sql) for the initialisation of this data in the DBs.
+See [`1.createAndPopulateTestTable.sql`](https://github.com/adamcameron/proxysql_experimentation/blob/1.0.1/docker/mariadb1/docker-entrypoint-initdb.d/1.createAndPopulateTestTable.sql) and [`1.createAndPopulateTestTable.sql`](https://github.com/adamcameron/proxysql_experimentation/blob/1.0.1/docker/mariadb2/docker-entrypoint-initdb.d/1.createAndPopulateTestTable.sql) for the initialisation of this data in the DBs.
 
 
 ### ProxySQL config
 
-`/etc/proxysql.cnf` ([`proxysql.cnf`](https://github.com/adamcameron/proxysql_experimentation/1.0/main/docker/proxysql/conf/proxysql.cnf)) in this project) has the following rules:
+`/etc/proxysql.cnf` ([`proxysql.cnf`](https://github.com/adamcameron/proxysql_experimentation/blob/1.0.1/docker/proxysql/conf/proxysql.cnf)) in this project) has the following rules:
 
 ```
 mysql_servers=({
@@ -188,7 +188,7 @@ Anything else will by default go to `mariadb1`.
 
 ### Tests
 
-There are tests (see [ProxySqlTest.cfc](https://github.com/adamcameron/proxysql_experimentation/blob/1.0/test/integration/db/ProxySqlTest.cfc)) proving this:
+There are tests (see [ProxySqlTest.cfc](https://github.com/adamcameron/proxysql_experimentation/blob/1.0.1/test/integration/db/ProxySqlTest.cfc)) proving this:
 
 ```
 import testbox.system.BaseSpec
@@ -221,7 +221,7 @@ These tests query relevant tables, and check that the data has come back from th
 
 ### Application config
 
-From [`Application.cfc`](https://github.com/adamcameron/proxysql_experimentation/1.0/main/Application.cfc) :
+From [`Application.cfc`](https://github.com/adamcameron/proxysql_experimentation/blob/1.0.1/Application.cfc) :
 
 ```
 private void function loadDataSources() {
