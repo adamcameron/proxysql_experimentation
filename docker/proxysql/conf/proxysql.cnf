@@ -1,0 +1,44 @@
+datadir="/var/lib/proxysql"
+errorlog="/var/log/proxysql/proxysql.log"
+
+admin_variables={
+    admin_credentials="admin:admin"
+    mysql_ifaces="0.0.0.0:6032"
+}
+
+mysql_variables={
+    monitor_username="proxysql_db_user"
+	monitor_password="1234"
+    monitor_ping_interval=5000
+    monitor_connect_interval=10000
+}
+
+mysql_servers=({
+    hostname="database1.backend"
+    port=33061
+    hostgroup=1
+},{
+    hostname="database2.backend"
+    port=33062
+    hostgroup=2
+})
+
+mysql_users=({
+    username="proxysql_db_user"
+    password="1234"
+    default_hostgroup=1
+})
+
+mysql_query_rules=({
+    rule_id=1
+    active=1
+    match_pattern="test_db1_only"
+    destination_hostgroup=1
+    apply=1
+},{
+    rule_id=2
+    active=1
+    match_pattern="test_db2_only"
+    destination_hostgroup=2
+    apply=1
+})

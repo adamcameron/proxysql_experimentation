@@ -1,0 +1,88 @@
+version: '2'
+
+services:
+    lucee:
+        build:
+            context: ./lucee
+            args:
+                - LUCEE_PASSWORD=${LUCEE_PASSWORD}
+        environment:
+            - MARIADB_PASSWORD=${MARIADB_PASSWORD}
+        volumes:
+            - ../:/var/www
+            - ../var/log/tomcat:/usr/local/tomcat/logs
+            - ../var/log/lucee/web:/opt/lucee/web/logs
+            - ../var/log/lucee/server:/opt/lucee/server/lucee-server/context/logs
+            - ./lucee/root_home/.bash_history:/root/.bash_history
+        ports:
+            - "8895:8888"
+        stdin_open: true
+        tty: true
+        networks:
+            - backend
+
+    mariadb1:
+        build:
+            context: ./mariadb1
+        environment:
+            - MARIADB_ROOT_PASSWORD=${MARIADB_ROOT_PASSWORD}
+            - MARIADB_DATABASE=${MARIADB_DATABASE}
+            - MARIADB_USER=${MARIADB_USER}
+            - MARIADB_PASSWORD=${MARIADB_PASSWORD}
+        ports:
+            - "3331:33061"
+        volumes:
+            - mariaDb1Data:/var/lib/mariadb
+            - ./mariadb1/root_home:/root
+            - ../var/log:/var/log
+        stdin_open: true
+        tty: true
+        networks:
+            backend:
+                aliases:
+                    - database1.backend
+
+    mariadb2:
+        build:
+            context: ./mariadb2
+        environment:
+            - MARIADB_ROOT_PASSWORD=${MARIADB_ROOT_PASSWORD}
+            - MARIADB_DATABASE=${MARIADB_DATABASE}
+            - MARIADB_USER=${MARIADB_USER}
+            - MARIADB_PASSWORD=${MARIADB_PASSWORD}
+        ports:
+            - "3332:33062"
+        volumes:
+            - mariaDb2Data:/var/lib/mariadb
+            - ./mariadb2/root_home:/root
+            - ../var/log:/var/log
+        stdin_open: true
+        tty: true
+        networks:
+            backend:
+                aliases:
+                    - database2.backend
+    proxysql:
+        build:
+            context: ./proxysql
+        ports:
+            - "6033:6033"
+        volumes:
+            - proxySqlData:/var/lib/proxysql
+            - ./proxysql/root_home:/root
+            - ../var/log/proxysql:/var/log/proxysql
+        stdin_open: true
+        tty: true
+        networks:
+            backend:
+                aliases:
+                    - proxysql.backend
+
+volumes:
+    mariaDb1Data:
+    mariaDb2Data:
+    proxySqlData:
+
+networks:
+    backend:
+        driver: "bridge"
